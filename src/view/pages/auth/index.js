@@ -29,7 +29,7 @@ class Auth extends React.Component {
     render() {
         return (
             <div className="auth_container">
-                <Tabs items={items} defaultActiveKey="login" />
+                <Tabs  items={items} defaultActiveKey="login" />
             </div>
         )
     }
