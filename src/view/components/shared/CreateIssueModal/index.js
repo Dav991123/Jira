@@ -1,10 +1,35 @@
+import { useState } from 'react';
 import { Modal, Form, Input, Select } from 'antd';
-import { issueTypes } from '../../../../core/constants/issue';
+import { issueTypes, priority } from '../../../../core/constants/issue';
 import Editor from '../Editor';
+import { doc, setDoc, db } from '../../../../services/firebase/firebase';
 
+// save button click
+// check form required
+// ??????? form data get
+// all ok backend call fetch
+// loading true
+// 
 const CreateIssueModal = ({ visible, setVisible }) => {
+    const [ form ] = Form.useForm();
+
+    const [confirmLoading, setConfirmLoading] = useState(false);
+
     const handleCloseModal = () => {
         setVisible(false);
+    }
+
+    const handleCreateIssue = async (values) => {
+        setConfirmLoading(true);
+        try{
+            const createDoc = doc(db, 'issue', `${Date.now()}`);
+            await setDoc(createDoc, values);
+            setVisible(false);
+        }catch(error) {
+
+        }finally{
+            setConfirmLoading(false);
+        }
     }
 
     return (
@@ -14,12 +39,15 @@ const CreateIssueModal = ({ visible, setVisible }) => {
             centered
             open={visible}
             width={800}
+            confirmLoading={confirmLoading}
             onCancel={handleCloseModal}
+            onOk={form.submit}
         >
-            <Form layout="vertical">
+            <Form layout="vertical" form={form} onFinish={handleCreateIssue}>
                 <Form.Item
                     name="issueType"
                     label="Issue Type"
+                    rules={[{required: true, message: 'Please Select Issue Type!'}]}
                 >
                     <Select 
                         showSearch
@@ -31,6 +59,7 @@ const CreateIssueModal = ({ visible, setVisible }) => {
                 <Form.Item
                     name="shortSummary"
                     label="Short Summary"
+                    rules={[{required: true, message: 'Please Input Issue Short Summary!'}]}
                 >
                   <Input 
                     placeholder="Short Summary"
@@ -40,8 +69,24 @@ const CreateIssueModal = ({ visible, setVisible }) => {
                 <Form.Item 
                     name="description"
                     label="Description"
+                    rules={[{required: true, message: 'Please Input Description!'}]}
                 >
-                    <Editor />
+                    <Input.TextArea 
+                        placeholder="Description"
+                    />
+                    {/* <Editor /> */}
+                </Form.Item>
+
+                <Form.Item
+                    name="priority"
+                    label="Priority"
+                    rules={[{required: true, message: 'Please Select Priority!'}]}
+                >
+                    <Select 
+                        showSearch
+                        placeholder="Priority"
+                        options={priority}
+                    />
                 </Form.Item>
             </Form>   
         </Modal>
