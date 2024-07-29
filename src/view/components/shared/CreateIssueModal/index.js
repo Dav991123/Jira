@@ -4,19 +4,19 @@ import { issueTypes, priority } from '../../../../core/constants/issue';
 import Editor from '../Editor';
 import { doc, setDoc, db } from '../../../../services/firebase/firebase';
 
-// save button click
-// check form required
-// ??????? form data get
-// all ok backend call fetch
-// loading true
-// 
 const CreateIssueModal = ({ visible, setVisible }) => {
     const [ form ] = Form.useForm();
+
+    const [formValues, setFormValues] = useState({
+        issueType: '',
+        shortSummary: '',
+    })
 
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     const handleCloseModal = () => {
         setVisible(false);
+        form.resetFields();
     }
 
     const handleCreateIssue = async (values) => {
@@ -25,6 +25,7 @@ const CreateIssueModal = ({ visible, setVisible }) => {
             const createDoc = doc(db, 'issue', `${Date.now()}`);
             await setDoc(createDoc, values);
             setVisible(false);
+            form.resetFields();
         }catch(error) {
 
         }finally{
@@ -71,10 +72,7 @@ const CreateIssueModal = ({ visible, setVisible }) => {
                     label="Description"
                     rules={[{required: true, message: 'Please Input Description!'}]}
                 >
-                    <Input.TextArea 
-                        placeholder="Description"
-                    />
-                    {/* <Editor /> */}
+                    <Editor />
                 </Form.Item>
 
                 <Form.Item
