@@ -22,7 +22,7 @@ const route = createBrowserRouter(
         </Route>  
     </Route>
   )
-)
+);
 
 class App extends React.Component {
   constructor() {
@@ -74,6 +74,7 @@ class App extends React.Component {
 
   render() {
     const { userProfileInfo, loading, isAuth } = this.state;
+    console.log(isAuth, 'isAuth')
 
     return (
       <LoadingWrapper loading={loading} fullScreen>
