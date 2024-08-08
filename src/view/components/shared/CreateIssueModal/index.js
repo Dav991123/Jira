@@ -5,6 +5,7 @@ import Editor from '../Editor';
 import { doc, setDoc, db, getDocs, collection } from '../../../../services/firebase/firebase';
 
 
+
 const CreateIssueModal = ({ visible, setVisible }) => { //render
     const [ form ] = Form.useForm();
     const [users, setUsers] = useState([]);
