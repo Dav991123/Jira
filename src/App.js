@@ -7,19 +7,18 @@ import { AuthContextProvider } from './context/AuthContext';
 import {  
   Route, 
   RouterProvider,
-  createBrowserRouter, 
+  createHashRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
 import './App.css';
 
-const route = createBrowserRouter(
+const route = createHashRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
         <Route path="login" element={<Login />}/>
-        <Route path="register" element={<Register />}/>
+          <Route path="register" element={<Register />}/>
 
-        <Route path="cabinet" element={<CabinetLayout />}>
-
+          <Route path="cabinet" element={<CabinetLayout />}>
         </Route>  
     </Route>
   )
@@ -59,15 +58,11 @@ const App = () => {
   }, [])
 
   return (
-    <>
-   
-      <LoadingWrapper loading={loading} fullScreen>
-        <AuthContextProvider value={{ isAuth, userProfileInfo, setIsAuth }}>
-          <RouterProvider router={route}/>
-        </AuthContextProvider>
-      </LoadingWrapper>
-    </>
-  
+    <LoadingWrapper loading={loading} fullScreen>
+      <AuthContextProvider value={{ isAuth, userProfileInfo, setIsAuth }}>
+        <RouterProvider router={route}/>
+      </AuthContextProvider>
+    </LoadingWrapper>
   )
 };
 

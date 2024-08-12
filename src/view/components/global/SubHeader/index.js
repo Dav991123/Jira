@@ -4,7 +4,6 @@ import { PlusOutlined } from '@ant-design/icons';
 import CreateIssueModal from '../../shared/CreateIssueModal';
 import { db, getDocs, collection } from '../../../../services/firebase/firebase';
 import { getFirstLetters } from '../../../../core/helpers/getFirstLetters';
-
 import './index.css';
 
 const SubHeader = () => {
