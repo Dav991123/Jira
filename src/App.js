@@ -8,11 +8,12 @@ import {
   Route, 
   RouterProvider,
   createBrowserRouter, 
+  createHashRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
 import './App.css';
 
-const route = createBrowserRouter(
+const route = createHashRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
         <Route path="login" element={<Login />}/>
