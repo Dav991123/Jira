@@ -7,7 +7,6 @@ import { AuthContextProvider } from './context/AuthContext';
 import {  
   Route, 
   RouterProvider,
-  createBrowserRouter, 
   createHashRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
