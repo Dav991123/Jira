@@ -37,10 +37,10 @@ const priority = [
 ];
 
 const taskStatus = { 
-    TODO: '0',
-    IN_PROGRESS: '1',
-    TEST: '2',
-    DONE: '3'
+    TODO: 'todo',
+    IN_PROGRESS: 'inProgress',
+    TEST: 'test',
+    DONE: 'done',
 }
 
 export {
