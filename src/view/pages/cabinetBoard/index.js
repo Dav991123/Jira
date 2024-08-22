@@ -37,9 +37,9 @@ const CabinetBoard = () => {
     
     return (
         <div className="drag_context_container">
-            <DragDropContext onDragEnd={() => {}}>
+            <DragDropContext>
                 {
-                    Object.entries(columns).map(([columnId, column]) => {
+                    Object.entries(columns).map(([columnId, column], index) => {
                         return (
                             <div className="column_container" key={columnId}>
                                 <h2>{column.name}</h2>
@@ -63,9 +63,9 @@ const CabinetBoard = () => {
                                                         column.items.map((item, index) => {
                                                             return (
                                                                 <Draggable 
+                                                                    key={item.id}
                                                                     draggableId={item.id} 
                                                                     index={index} 
-                                                                    key={item.id}
                                                                 >
                                                                     {
                                                                         (provided, snapshot) => {
@@ -79,7 +79,8 @@ const CabinetBoard = () => {
                                                                                         padding: 18,
                                                                                         minHeight: 50,
                                                                                         color: 'white',
-                                                                                        backgroundColor: snapshot.isDragging ?  'gray' : 'blue'
+                                                                                        backgroundColor: snapshot.isDragging ?  'gray' : 'blue',
+                                                                                        ...provided.draggableProps.style,
                                                                                     }}
                                                                                 >
                                                                                     {item.title}
