@@ -26,7 +26,8 @@ const CreateIssueModal = ({ visible, setVisible, users }) => { //render
         setConfirmLoading(true);
 
         const taskDataModel = {
-            status: taskStatus.TODO,
+            key: taskId,
+            status: taskStatus.TODO.key,
             ...values
         }
      
