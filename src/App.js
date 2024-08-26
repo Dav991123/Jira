@@ -3,8 +3,9 @@ import { MainLayout, CabinetLayout } from './view/layouts';
 import { Login, Register } from './view/pages/auth';
 import CabinetBoard from './view/pages/cabinetBoard';
 import LoadingWrapper from './view/components/shared/LoadingWrapper';
-import { db, auth, doc, getDoc, onAuthStateChanged } from './services/firebase/firebase';
+import { db, auth, doc, getDoc, getDocs, collection, onAuthStateChanged } from './services/firebase/firebase';
 import { AuthContextProvider } from './context/AuthContext';
+import { taskStatusModel } from './view/pages/cabinetBoard/constants'; //Todo
 import { ROUTES_CONSTANTS } from './routes';
 import {  
   Route, 
@@ -20,6 +21,8 @@ import './App.css';
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [columns, setColumns] = useState(taskStatusModel); //Todo
+  const [issuesLoading, setIssuesLoading] = useState(false); //Todo
   const [userProfileInfo, setUserProfileInfo] = useState({
     firstName: '',
     lastName: '',
@@ -49,9 +52,26 @@ const App = () => {
     })
   }, [])
 
+  const handleGetIssues = async () => { //Todo
+    setIssuesLoading(true);
+    const updatedTaskStatusModel = taskStatusModel();
+    const queryData = await getDocs(collection(db, 'issue')); 
+    queryData.docs.map(doc => {
+        const data = doc.data();
+        const { status } = data;
+
+        if (updatedTaskStatusModel[status]) {
+            updatedTaskStatusModel[status].items.push(data)
+        }
+    })
+
+    setIssuesLoading(false);
+    setColumns({...updatedTaskStatusModel});
+  };
+
   return (
     <LoadingWrapper loading={loading} fullScreen>
-      <AuthContextProvider value={{ isAuth, userProfileInfo, setIsAuth }}>
+      <AuthContextProvider value={{ isAuth, userProfileInfo, setIsAuth, columns,  setColumns, issuesLoading, handleGetIssues }}>
         <RouterProvider router={
           createBrowserRouter(
             createRoutesFromElements(

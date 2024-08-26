@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Modal, Form, Input, Select, notification } from 'antd';
 import { issueTypes, priority, taskStatus } from '../../../../core/constants/issue';
 import Editor from '../Editor';
 import { doc, setDoc, db, updateDoc, arrayUnion } from '../../../../services/firebase/firebase';
+import { AuthContext } from '../../../../context/AuthContext';
 
 const CreateIssueModal = ({ visible, setVisible, users }) => { //render
     const [ form ] = Form.useForm();
-   
+    const { handleGetIssues } = useContext(AuthContext);
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     const handleUpdateAssigneesTask = async (taskId, assignerId) => {
@@ -34,7 +35,8 @@ const CreateIssueModal = ({ visible, setVisible, users }) => { //render
         try{
             const createDoc = doc(db, 'issue', taskId);
             await setDoc(createDoc, taskDataModel);
-            await handleUpdateAssigneesTask(taskId, values.assignees)
+            await handleUpdateAssigneesTask(taskId, values.assignees);
+            handleGetIssues();
             notification.success({
                 message: 'Your task has been created',
             });
