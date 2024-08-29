@@ -79,8 +79,19 @@ const CreateIssueModal = ({ visible, setVisible, users }) => { //render
                     <Select 
                         showSearch
                         placeholder="Issue Type"
-                        options={issueTypes}
-                    />
+                    >
+                        {
+                            issueTypes.map((item) => {
+                                return (
+                                    <Select.Option value={item.value}>
+                                        {item.icon}
+                                        {' '}
+                                        {item.label}
+                                    </Select.Option>
+                                )
+                            })
+                        }
+                    </Select>
                 </Form.Item>
 
                 <Form.Item
@@ -133,8 +144,20 @@ const CreateIssueModal = ({ visible, setVisible, users }) => { //render
                     <Select 
                         showSearch
                         placeholder="Priority"
-                        options={priority}
-                    />
+                    >
+                        {
+                            priority.map((item) => {
+                               return (
+                                <Select.Option value={item.value}>
+                                    {item.icon}
+                                    {' '}
+                                    {item.label}
+                                </Select.Option>
+                               )
+                            })
+                        }
+                    </Select>
+
                 </Form.Item>
             </Form>   
         </Modal>
