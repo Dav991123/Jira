@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { db, getDocs, collection, updateDoc, doc } from '../../../services/firebase/firebase';
-import { taskStatusModel } from './constants';
+import { db, updateDoc, doc } from '../../../services/firebase/firebase';
 import LoadingWrapper from '../../components/shared/LoadingWrapper';
-import { Typography } from 'antd';
+import { Typography, Flex } from 'antd';
 import './index.css';
 import { AuthContext } from '../../../context/AuthContext';
+import { ISSUE_OPTION, PRIORITY_OPTION } from '../../../core/constants/issue';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 
 const CabinetBoard = () => {
@@ -121,7 +121,21 @@ const CabinetBoard = () => {
                                                                                             ...provided.draggableProps.style,
                                                                                         }}
                                                                                     >
-                                                                                        {item.shortSummary}
+                                                                                        <Text>
+                                                                                            {item.shortSummary}
+                                                                                        </Text>
+
+                                                                                        <Flex justify="space-between">
+                                                                                            <div>
+                                                                                                {ISSUE_OPTION[item.issueType].icon}
+                                                                                                {' '}
+                                                                                                {PRIORITY_OPTION[item.priority].icon}
+                                                                                            </div>
+
+                                                                                            <div>
+
+                                                                                            </div>
+                                                                                        </Flex>
                                                                                     </div>
                                                                                 )
                                                                             }
