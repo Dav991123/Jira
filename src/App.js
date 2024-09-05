@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { MainLayout, CabinetLayout } from './view/layouts';
 import { Login, Register } from './view/pages/auth';
 import CabinetBoard from './view/pages/cabinetBoard';
@@ -66,22 +66,23 @@ const App = () => {
     })
   }, [])
 
-  const handleGetIssues = async () => { //Todo
+  const handleGetIssues = useCallback(async () => { //Todo
     setIssuesLoading(true);
     const updatedTaskStatusModel = taskStatusModel();
     const queryData = await getDocs(collection(db, 'issue')); 
-    queryData.docs.map(doc => {
+    queryData.docs.forEach(doc => {
         const data = doc.data();
         const { status } = data;
 
         if (updatedTaskStatusModel[status]) {
             updatedTaskStatusModel[status].items.push(data)
-        }
-    })
+        };
+
+    });
 
     setIssuesLoading(false);
     setColumns({...updatedTaskStatusModel});
-  };
+  }, [])
 
   return (
     <LoadingWrapper loading={loading} fullScreen>
