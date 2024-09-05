@@ -29,8 +29,6 @@ const App = () => {
     email: ''
   });
 
-  console.log(columns, 'columns');
-
   useEffect(() => {
     const handleGetUsersData = async () => {
         const queryData = await getDocs(collection(db, 'registerUsers'));
