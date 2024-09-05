@@ -16,10 +16,11 @@ const EditIssueModal = ({ visible, onClose, issueData }) => {
         onClose();
     };
 
+
     useEffect(() => {
         const { key, ...restData } = issueData;
         form.setFieldsValue(restData);
-    }, [])
+    }, [issueData, form]);
 
     const handleEditForm = async values => {
         setConfirmLoading(true);
