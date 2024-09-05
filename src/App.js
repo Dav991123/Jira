@@ -16,8 +16,6 @@ import {
 } from 'react-router-dom';
 import './App.css';
 
-
-
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,6 +28,8 @@ const App = () => {
     headline: '',
     email: ''
   });
+
+  console.log(columns, 'columns');
 
   useEffect(() => {
     const handleGetUsersData = async () => {
@@ -127,6 +127,8 @@ const App = () => {
 };
 
 export default App;
+
+
 
 
 

@@ -8,8 +8,10 @@ import { AuthContext } from '../../../../context/AuthContext';
 const { Text } = Typography;
 
 const EditIssueModal = ({ visible, onClose, issueData }) => {
+    console.log(issueData, 'issueData');
     const [ form ] = Form.useForm(); 
     const { handleGetIssues } = useContext(AuthContext);
+    console.log(handleGetIssues, '>>>>');
     const [confirmLoading, setConfirmLoading] = useState(false);
 
     const handleClose = () => {
@@ -17,7 +19,7 @@ const EditIssueModal = ({ visible, onClose, issueData }) => {
     };
 
     useEffect(() => {
-        const { key, index, ...restData } = issueData;
+        const { key, ...restData } = issueData;
         form.setFieldsValue(restData);
     }, [])
 
@@ -70,7 +72,6 @@ const EditIssueModal = ({ visible, onClose, issueData }) => {
             <IssueModalForm 
                 form={form}
                 onFinish={handleEditForm}
-                users={[]}
             />
         </Modal>
     )
