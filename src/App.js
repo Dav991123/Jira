@@ -15,6 +15,8 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import './App.css';
+import { store } from './state-managment/store';
+import { Provider } from 'react-redux';
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -22,7 +24,7 @@ const App = () => {
   const [users, setUsers] = useState([]); //Todo Next Redux
   const [columns, setColumns] = useState(taskStatusModel); //Todo Next Redux
   const [issuesLoading, setIssuesLoading] = useState(false); //Todo Next Redux
-  const [userProfileInfo, setUserProfileInfo] = useState({
+  const [userProfileInfo, setUserProfileInfo] = useState({ //Todo Next Redux
     firstName: '',
     lastName: '',
     headline: '',
@@ -82,45 +84,47 @@ const App = () => {
 
     setIssuesLoading(false);
     setColumns({...updatedTaskStatusModel});
-  }, [])
+  }, []);
 
   return (
     <LoadingWrapper loading={loading} fullScreen>
-      <AuthContextProvider value={{ 
-        isAuth,
-        userProfileInfo, 
-        setIsAuth, 
-        columns,  
-        setColumns, 
-        issuesLoading, 
-        handleGetIssues,
-        users
-      }}>
-        <RouterProvider router={
-          createBrowserRouter(
-            createRoutesFromElements(
-              <Route path="/" element={<MainLayout />}>
-                  <Route 
-                    path={ROUTES_CONSTANTS.LOGIN} 
-                    element={!isAuth ? <Login /> : <Navigate to={ROUTES_CONSTANTS.CABINET}/>}
-                  />
-                  <Route 
-                    path={ROUTES_CONSTANTS.REGISTER} 
-                    element={!isAuth ? <Register /> : <Navigate to={ROUTES_CONSTANTS.REGISTER}/>}
-                  />
+      <Provider store={store}>
+        <AuthContextProvider value={{ 
+          isAuth,
+          userProfileInfo, 
+          setIsAuth, 
+          columns,  
+          setColumns, 
+          issuesLoading, 
+          handleGetIssues,
+          users
+        }}>
+          <RouterProvider router={
+            createBrowserRouter(
+              createRoutesFromElements(
+                <Route path="/" element={<MainLayout />}>
+                    <Route 
+                      path={ROUTES_CONSTANTS.LOGIN} 
+                      element={!isAuth ? <Login /> : <Navigate to={ROUTES_CONSTANTS.CABINET}/>}
+                    />
+                    <Route 
+                      path={ROUTES_CONSTANTS.REGISTER} 
+                      element={!isAuth ? <Register /> : <Navigate to={ROUTES_CONSTANTS.REGISTER}/>}
+                    />
 
-                  {/* ------ Cabinet Layout Route ------ */}
-                  <Route 
-                    path={ROUTES_CONSTANTS.CABINET} 
-                    element={isAuth ? <CabinetLayout /> : <Navigate to={ROUTES_CONSTANTS.LOGIN}/>} 
-                  >
-                    <Route path={ROUTES_CONSTANTS.CABINET} element={<CabinetBoard />}/>
-                  </Route>
-              </Route>
+                    {/* ------ Cabinet Layout Route ------ */}
+                    <Route 
+                      path={ROUTES_CONSTANTS.CABINET} 
+                      element={isAuth ? <CabinetLayout /> : <Navigate to={ROUTES_CONSTANTS.LOGIN}/>} 
+                    >
+                      <Route path={ROUTES_CONSTANTS.CABINET} element={<CabinetBoard />}/>
+                    </Route>
+                </Route>
+              )
             )
-          )
-        }/>
-      </AuthContextProvider>
+          }/>
+        </AuthContextProvider>
+      </Provider>
     </LoadingWrapper>
   )
 };

@@ -6,19 +6,23 @@ import { Typography, Flex } from 'antd';
 import { AuthContext } from '../../../context/AuthContext';
 import EditIssueModal from '../../components/shared/EditIssueModal';
 import { ISSUE_OPTION, PRIORITY_OPTION } from '../../../core/constants/issue';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from '../../../state-managment/reducers/issuesSlice';
 import './index.css';
 
 const { Title, Text } = Typography;
 
 
 const CabinetBoard = () => {
-    const { columns, issuesLoading, handleGetIssues, setColumns } = useContext(AuthContext)
+    const { issuesLoading, setColumns } = useContext(AuthContext)
     const [ selectedIssueData, setSelectedIssueData ] = useState(null);
+    const dispatch = useDispatch();
+
+    const columns = useSelector(state => state.issues.issueColumns);
 
     useEffect(() => {
-        handleGetIssues();
-    }, [handleGetIssues]);
-
+        dispatch(fetchData());
+    },[])
     const handleDragEnd = result => {
         const { source, destination } = result;
         const sourceColumn = columns[source.droppableId];
