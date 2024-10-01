@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import { taskStatusModel } from 'src/view/pages/cabinetBoard/constants';
-// import { collection, db, getDocs } from 'src/services/firebase/firebase';
 import { taskStatusModel } from '../../view/pages/cabinetBoard/constants';
 import { collection, db, getDocs } from '../../services/firebase/firebase';
 
@@ -10,7 +8,7 @@ const initialState = {
     loading: false
 }
 
-export const fetchData = createAsyncThunk(
+export const fetchIssuesData = createAsyncThunk(
   'data/fetchData',
   async () => {
       const updatedTaskStatusModel = taskStatusModel();
@@ -21,7 +19,7 @@ export const fetchData = createAsyncThunk(
 
           if (updatedTaskStatusModel[status]) {
               updatedTaskStatusModel[status].items.push(data)
-          };
+          }
 
       });
 
@@ -33,21 +31,25 @@ const issuesSlice = createSlice({
     name: 'issues',
     initialState,
     reducers: {
-        increment: (state) => {
-            console.log(state.count, 'increment')
-            state.count = state.count + 1;
-        },
-
-        decrement: (state) => {
-            state.count = state.count - 1;
-        },
+      changeIssueColumns: (state, payload) => {
+        console.log(state, 'state');
+        console.log(payload);
+      }
+        // increment: (state) => {
+        //     console.log(state.count, 'increment')
+        //     state.count = state.count + 1;
+        // },
+        //
+        // decrement: (state) => {
+        //     state.count = state.count - 1;
+        // },
     },
     extraReducers: (promise) => {
-        promise.addCase(fetchData.pending, (state) => {
-            state.loading = true
-        })
-          .addCase(fetchData.fulfilled, (state, action) => {
-              console.log(action, 'action')
+        promise
+          .addCase(fetchIssuesData.pending, (state) => {
+              state.loading = true;
+          })
+          .addCase(fetchIssuesData.fulfilled, (state, action) => {
               state.loading = false;
               state.issueColumns = action.payload
           })

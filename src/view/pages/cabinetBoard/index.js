@@ -7,7 +7,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import EditIssueModal from '../../components/shared/EditIssueModal';
 import { ISSUE_OPTION, PRIORITY_OPTION } from '../../../core/constants/issue';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from '../../../state-managment/reducers/issuesSlice';
+import { fetchIssuesData } from '../../../state-managment/reducers/issuesSlice';
 import './index.css';
 
 const { Title, Text } = Typography;
@@ -21,8 +21,9 @@ const CabinetBoard = () => {
     const columns = useSelector(state => state.issues.issueColumns);
 
     useEffect(() => {
-        dispatch(fetchData());
-    },[])
+        dispatch(fetchIssuesData());
+    },[]);
+
     const handleDragEnd = result => {
         const { source, destination } = result;
         const sourceColumn = columns[source.droppableId];
