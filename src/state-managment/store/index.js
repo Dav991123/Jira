@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import issuesReducer from '../reducers/issuesSlice';
-import usersReducer from '../reducers/usersSlice';
+import issuesReducer from '../slices/issuesSlice';
+import usersReducer from '../slices/usersSlice';
+import authUserInfoSlice from '../slices/authUserInfoSlice';
 
 export const store = configureStore({
     reducer: {
         issues: issuesReducer,
-        users: usersReducer
+        users: usersReducer,
+        authInfo: authUserInfoSlice
     }
 });
 
