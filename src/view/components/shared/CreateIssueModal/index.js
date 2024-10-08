@@ -3,7 +3,7 @@ import { Modal, Form, notification } from 'antd';
 import { taskStatus } from '../../../../core/constants/issue';
 import { doc, setDoc, db, updateDoc, arrayUnion } from '../../../../services/firebase/firebase';
 import IssueModalForm from '../IssueModalForm';
-import { fetchIssuesData } from '../../../../state-managment/reducers/issuesSlice';
+import { fetchIssuesData } from '../../../../state-managment/slices/issuesSlice';
 import { useDispatch } from 'react-redux';
 
 const CreateIssueModal = ({ visible, setVisible }) => { //render
